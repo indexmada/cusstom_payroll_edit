@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record model="ir.ui.view" id="saisie_work_entry_tree">
+		<field name="name">saisie.work.entry.tree</field>
+		<field name="model">saisie.work.entry</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="employee_id"/>
+				<field name="matricule"/>
+				<field name="month"/>
+				<field name="year"/>
+				<field name="work_entry_type"/>
+				<field name="number_of_days"/>
+				<field name="number_of_hours"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_saisie_work_entry">
+        <field name="name">Saisie Work Entry</field>
+        <field name="res_model">saisie.work.entry</field>
+        <field name="view_mode">tree</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem
+    	id="saisi_entry_menu"
+    	name="Importation Données"
+    	parent="hr_payroll.menu_hr_payroll_root"
+    	/>
+
+    <menuitem
+    	id="saisi_work_entry_menu_item"
+    	name="Saisie Work Entry"
+    	parent="saisi_entry_menu"
+    	action="action_saisie_work_entry"/>
+
+	<record model="ir.ui.view" id="saisie_other_entry_tree">
+		<field name="name">saisie.other.entry.tree</field>
+		<field name="model">saisie.other.entry</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="employee_id"/>
+				<field name="matricule"/>
+				<field name="month"/>
+				<field name="year"/>
+				<field name="payslip_input_type"/>
+				<field name="amount"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_saisie_other_entry">
+        <field name="name">Saisie Autre Entrée</field>
+        <field name="res_model">saisie.other.entry</field>
+        <field name="view_mode">tree</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem
+    	id="saisi_other_entry_menu_item"
+    	name="Saisie Autre Entrée"
+    	parent="saisi_entry_menu"
+    	action="action_saisie_other_entry"/>
+
+    <record model="ir.ui.view" id="payslip_run_inherit">
+		<field name="name">hr.payslip.run.form.inherit</field>
+		<field name="model">hr.payslip.run</field>
+		<field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='credit_note']" position="after">
+				<field name="calculate_presence"/>
+				<field name="month"/>
+				<field name="year"/>
+			</xpath>
+		</field>
+	</record>
+<!-- Automated action -->
+        <record id="update_worked_days" model="base.automation">
+            <field name="name">Update worked_days values on Update corresponding value on Saisie Work Entry</field>
+            <field name="model_id" ref="index_payroll_custom.model_saisie_work_entry"/>
+            <field name="trigger">on_write</field>
+            <field name="active" eval="True"/>
+            <field name="state">code</field>
+            <field name="code">
+record.update_worked_days_value()
+            </field>
+        </record>
+
+        <record id="update_other_entry" model="base.automation">
+            <field name="name">Update other entry values on Update corresponding value on Saisie Other Entry</field>
+            <field name="model_id" ref="index_payroll_custom.model_saisie_other_entry"/>
+            <field name="trigger">on_write</field>
+            <field name="active" eval="True"/>
+            <field name="state">code</field>
+            <field name="code">
+record.update_payslip_input_value()
+            </field>
+        </record>
+<!-- End automated action -->
+
+    <record model="ir.ui.view" id="view_hr_payslip_form_inherit_new">
+		<field name="name">hr.payslip.form.inherit</field>
+		<field name="model">hr.payslip</field>
+		<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<field name="credit_note" position="after">
+				<field name="month"/>
+				<field name="year"/>
+			</field>
+<!-- 			<field name="stc" position="after">
+				<field name="calculate_presence"/>
+			</field> -->
+			<xpath expr="//page/field[@name='input_line_ids']/tree" position="inside">
+				<field name="saisie_other_entry" invisible="1"/>
+			</xpath>
+			<xpath expr="//page/field[@name='worked_days_line_ids']/tree" position="inside">
+				<field name="saisie_work_entry_id" invisible="1"/>
+			</xpath>
+		</field>
+	</record>  
+
+</odoo>
