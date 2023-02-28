@@ -81,7 +81,7 @@
 <!-- Automated action -->
         <record id="update_worked_days" model="base.automation">
             <field name="name">Update worked_days values on Update corresponding value on Saisie Work Entry</field>
-            <field name="model_id" ref="index_payroll_custom.model_saisie_work_entry"/>
+            <field name="model_id" ref="custom_payroll_edit.model_saisie_work_entry"/>
             <field name="trigger">on_write</field>
             <field name="active" eval="True"/>
             <field name="state">code</field>
@@ -92,7 +92,7 @@ record.update_worked_days_value()
 
         <record id="update_other_entry" model="base.automation">
             <field name="name">Update other entry values on Update corresponding value on Saisie Other Entry</field>
-            <field name="model_id" ref="index_payroll_custom.model_saisie_other_entry"/>
+            <field name="model_id" ref="custom_payroll_edit.model_saisie_other_entry"/>
             <field name="trigger">on_write</field>
             <field name="active" eval="True"/>
             <field name="state">code</field>
