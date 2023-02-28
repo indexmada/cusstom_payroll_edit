@@ -32,7 +32,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',
-        'Saisie_workEntry.xml',
+        'views/Saisie_workEntry.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
