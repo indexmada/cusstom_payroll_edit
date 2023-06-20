@@ -6,13 +6,27 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree editable="bottom">
-				<field name="employee_id"/>
 				<field name="matricule"/>
-				<field name="month"/>
-				<field name="year"/>
-				<field name="work_entry_type"/>
-				<field name="number_of_days"/>
-				<field name="number_of_hours"/>
+				<field name="employee_id"/>
+
+				<field name="cin"/>
+				<field name="cnaps"/>
+
+				<field name="taux_horaire"/>
+				<field name="taux_jour"/>
+				<field name="sal_base"/>
+				<field name="nbr_abs"/>
+				<field name="amount_abs"/>
+				<field name="nb_nuit" optional="show"/>
+				<field name="maj_nuit" optional="show"/>
+				<field name="nb_dim" optional="show"/>
+				<field name="maj_dim" optional="show"/>
+
+				<field name="month" optional="hide"/>
+				<field name="year" optional="hide"/>
+				<field name="work_entry_type" optional="hide"/>
+				<field name="number_of_days" optional="hide"/>
+				<field name="number_of_hours" optional="hide"/>
 			</tree>
 		</field>
 	</record>
@@ -42,12 +56,26 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree editable="bottom">
-				<field name="employee_id"/>
 				<field name="matricule"/>
-				<field name="month"/>
-				<field name="year"/>
-				<field name="payslip_input_type"/>
-				<field name="amount"/>
+				<field name="employee_id"/>
+
+				<field name="cin"/>
+				<field name="cnaps"/>
+
+				<field name="taux_horaire"/>
+				<field name="taux_jour"/>
+				<field name="sal_base"/>
+				<field name="nbr_abs"/>
+				<field name="amount_abs"/>
+				<field name="nb_nuit" optional="show"/>
+				<field name="maj_nuit" optional="show"/>
+				<field name="nb_dim" optional="show"/>
+				<field name="maj_dim" optional="show"/>
+
+				<field name="month" optional="hide"/>
+				<field name="year" optional="hide"/>
+				<field name="payslip_input_type" optional="hide"/>
+				<field name="amount" optional="hide"/>
 			</tree>
 		</field>
 	</record>

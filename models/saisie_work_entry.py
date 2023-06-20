@@ -37,6 +37,21 @@ class SaisieWorkEntry(models.Model):
 
     employee_id = fields.Many2one("hr.employee", string="Employé")
     matricule = fields.Char("Matricule")
+
+    cin = fields.Char("CIN")
+    cnaps = fields.Char("CNAPS")
+
+    taux_horaire = fields.Float("Taux Horaire")
+    taux_jour = fields.Float("Taux Journalier")
+    sal_base = fields.Float("Salaire de Base")
+    nbr_abs = fields.Integer("NBR ABS")
+    amount_abs = fields.Float("MONT ABSENCE")
+    nb_nuit = fields.Integer("Nbr Nuit")
+    maj_nuit = fields.Float("Maj Nuit 30%")
+    nb_dim = fields.Integer("Nbr Dim")
+    maj_dim = fields.Float("Maj Dim 40%")
+
+
     month = fields.Selection(MONTH_LIST, string="Mois de")
     work_entry_type = fields.Many2one("hr.work.entry.type",string="Rubrique")
     number_of_days = fields.Float("Nombre de jours")
@@ -46,17 +61,46 @@ class SaisieWorkEntry(models.Model):
     def update_worked_days_value(self):
         worked_day = self.env['hr.payslip.worked_days'].sudo().search([('saisie_work_entry_id','=', self.id)], limit=1)
         for rec in worked_day:
-            rec.write({
-                    'work_entry_type_id': self.work_entry_type.id,
-                    'number_of_days': self.number_of_days,
-                    'number_of_hours': self.number_of_hours,
+            if not nb_nuit and nb_dim:
+                rec.write({
+                        'work_entry_type_id': self.work_entry_type.id,
+                        'number_of_days': self.number_of_days,
+                        'number_of_hours': self.number_of_hours,
                 })
+            elif maj_nuit:
+                rec.write({
+                        'work_entry_type_id': self.work_entry_type.id,
+                        'number_of_days': '',
+                        'number_of_hours': self.nb_nuit,
+                    })
+
+            elif maj_dim:
+                rec.write({
+                        'work_entry_type_id': self.work_entry_type.id,
+                        'number_of_days': '',
+                        'number_of_hours': self.nb_dim,
+                    })
 
 class SaisieOtherEntry(models.Model):
     _name="saisie.other.entry"
 
     employee_id = fields.Many2one("hr.employee", string="Employé")
     matricule = fields.Char("Matricule")
+
+
+    cin = fields.Char("CIN")
+    cnaps = fields.Char("CNAPS")
+
+    taux_horaire = fields.Float("Taux Horaire")
+    taux_jour = fields.Float("Taux Journalier")
+    sal_base = fields.Float("Salaire de Base")
+    nbr_abs = fields.Integer("NBR ABS")
+    amount_abs = fields.Float("MONT ABSENCE")
+    nb_nuit = fields.Integer("Nbr Nuit")
+    maj_nuit = fields.Float("Maj Nuit 30%")
+    nb_dim = fields.Integer("Nbr Dim")
+    maj_dim = fields.Float("Maj Dim 40%")
+
     month = fields.Selection(MONTH_LIST, string="Mois de")
     payslip_input_type = fields.Many2one("hr.payslip.input.type", string="Rubrique")
     amount = fields.Float("Montant")
